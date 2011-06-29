@@ -12,7 +12,7 @@ describe CalendarSearchController do
   describe "searching based on date range" do
     before do
       @controller = CalendarSearchController.new
-      @today = DateTime.parse('06/01/2011')
+      @today = DateTime.strptime('06/01/2011', '%m/%d/%Y')
       DateTime.stub!(:now).and_return(@today)
     end
     
@@ -46,8 +46,8 @@ describe CalendarSearchController do
     end
 
     it "should return events for specified date range" do
-      start_date = DateTime.parse('06/01/2010')
-      end_date = DateTime.parse('06/15/2010')
+      start_date = DateTime.strptime('06/01/2010', '%m/%d/%Y')
+      end_date = DateTime.strptime('06/15/2010', '%m/%d/%Y')
 
       events = [Event.create(:at => start_date), Event.create(:at => start_date + 3), Event.create(:at => end_date - 1)]
       more_events = [Event.create(:at => start_date - 2), Event.create(:at => start_date - 1)]
@@ -65,7 +65,7 @@ describe CalendarSearchController do
     end
 
     it "returns events for a specified hour" do
-      hour = DateTime.parse('06/01/2010 15:00')
+      hour = DateTime.strptime('06/01/2010 15:00', '%m/%d/%Y %H:%M')
 
       events = [Event.create(:at => hour), Event.create(:at => hour + 1.second), Event.create(:at => hour + 1.minute)]
       Event.create(:at => hour + 1.hour); Event.create(:at => hour - 1.hour); Event.create(:at => hour - 1.day)
